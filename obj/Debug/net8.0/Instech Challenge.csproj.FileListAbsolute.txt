@@ -1,0 +1,14 @@
+C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\bin\Debug\net8.0\Instech Challenge.exe
+C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\bin\Debug\net8.0\Instech Challenge.deps.json
+C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\bin\Debug\net8.0\Instech Challenge.runtimeconfig.json
+C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\bin\Debug\net8.0\Instech Challenge.dll
+C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\bin\Debug\net8.0\Instech Challenge.pdb
+C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\obj\Debug\net8.0\Instech Challenge.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\obj\Debug\net8.0\Instech Challenge.AssemblyInfoInputs.cache
+C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\obj\Debug\net8.0\Instech Challenge.AssemblyInfo.cs
+C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\obj\Debug\net8.0\Instech Challenge.csproj.CoreCompileInputs.cache
+C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\obj\Debug\net8.0\Instech Challenge.dll
+C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\obj\Debug\net8.0\refint\Instech Challenge.dll
+C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\obj\Debug\net8.0\Instech Challenge.pdb
+C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\obj\Debug\net8.0\Instech Challenge.genruntimeconfig.cache
+C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\obj\Debug\net8.0\ref\Instech Challenge.dll
