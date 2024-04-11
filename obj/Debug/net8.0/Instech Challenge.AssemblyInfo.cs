@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Instech Challenge")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+62db34df1163e69113ef8dbbde2529199b849366")]
 [assembly: System.Reflection.AssemblyProductAttribute("Instech Challenge")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Instech Challenge")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

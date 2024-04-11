@@ -12,3 +12,4 @@ C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\obj\Debug\net8.0\ref
 C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\obj\Debug\net8.0\Instech Challenge.pdb
 C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\obj\Debug\net8.0\Instech Challenge.genruntimeconfig.cache
 C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\obj\Debug\net8.0\ref\Instech Challenge.dll
+C:\Users\samit\Documents\Jobbsøknad - IT\Instech Challenge\obj\Debug\net8.0\Instech Challenge.sourcelink.json

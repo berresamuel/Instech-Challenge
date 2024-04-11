@@ -12,16 +12,19 @@ AnchorageAndFleets anchorageAndFleets;
 int[,] anchorage;
 int[,] tempAnchorage;
 ArrayList finalAnchorageList = new ArrayList();
+int shipNumber = 1; // used for visual representation of ships
 
-if (await InitializeRandomFleetsAsync())
-    RunAlgorithm();
+/* if (await InitializeRandomFleetsAsync())
+    RunAlgorithm(); */
+
+await InitializeRandomFleetsAsync();
 
 ArrayList RunAlgorithm()
 {
     while (MoreShipsRemaining())
     {
         while (AddShipToAnchorageIfPossible())
-        {};
+        { UpdateShipNumber(); };
         GoToNextAnchorage();
     }
     return finalAnchorageList;
@@ -52,6 +55,10 @@ async Task<bool> InitializeRandomFleetsAsync()
 
             InitializeNewAnchorage();
 
+            RunAlgorithm();
+
+            PrintFittedAnchorageInfo(finalAnchorageList);
+
             return true;
 
         }
@@ -65,6 +72,30 @@ async Task<bool> InitializeRandomFleetsAsync()
         Console.WriteLine($"Error occured while retrieving data: {ex.Message}");
     }
     return false;
+}
+
+void PrintFittedAnchorageInfo(ArrayList anchorage)
+// Prints number of anchorages, and how they look
+{
+    Console.WriteLine("According to the algorithm, we need " + anchorage.Count + " iterations");
+    Console.WriteLine();
+    foreach (int[,] iteration in anchorage)
+    {
+        Console.WriteLine("\n------------ New anchorage ------------\n");
+        for (int y = 0; y < iteration.GetLength(0); y++)
+        {
+            for (int x = 0; x < iteration.GetLength(1); x++)
+            {
+                if (iteration[y, x] == 0)
+                {
+                    Console.Write("X");
+                }
+                else
+                    Console.Write(iteration[y, x]);
+            }
+            Console.WriteLine();
+        }
+    }
 }
 
 // Code to format the list of fleets
@@ -94,7 +125,7 @@ bool MoreShipsRemaining()
 {
     foreach (Fleet fleet in anchorageAndFleets.fleets)
     {
-        if (fleet.remainingShips > 0)
+        if (fleet.shipCount > 0)
         {
             return true;
         }
@@ -107,11 +138,11 @@ bool AddShipToAnchorageIfPossible()
 {
     foreach (Fleet currentFleet in anchorageAndFleets.fleets)
     {
-        if (currentFleet.remainingShips > 0)
+        if (currentFleet.shipCount > 0)
         {
             if (TryToPlaceShipAllLocations(currentFleet.singleShipDimensions.width, currentFleet.singleShipDimensions.height))
             {
-                currentFleet.remainingShips -= 1;
+                currentFleet.shipCount -= 1;
                 return true;
             }
         }
@@ -148,10 +179,10 @@ bool TryToPlaceShipAtCoordinates(int anchorageY, int anchorageX, int shipWidth, 
         tempAnchorage = (int[,])anchorage.Clone();
         for (int y = anchorageY; y < anchorageY + shipWidth; y++)
         {
-            for (int x = anchorageX; x < anchorageX + shipHeight; y++)
+            for (int x = anchorageX; x < anchorageX + shipHeight; x++)
             {
                 if (tempAnchorage[y, x] == 0)
-                    tempAnchorage[y, x] = 1;
+                    tempAnchorage[y, x] = shipNumber;
                 else
                     return false;
             }
@@ -162,6 +193,12 @@ bool TryToPlaceShipAtCoordinates(int anchorageY, int anchorageX, int shipWidth, 
     return false;
 }
 
+void UpdateShipNumber()
+{
+    if (++shipNumber > 9)
+        shipNumber = 1;
+}
+
 // Return list 
 
 // Classes used to create objects for fleets and anchorage
@@ -169,13 +206,13 @@ public class Fleet
 {
     public required Dimensions singleShipDimensions { get; set; }
     public required string shipDesignation { get; set; }
-    public int remainingShips { get; set; }
+    public required int shipCount { get; set; }
 }
 
 public class Dimensions
 {
-    public int width { get; set; }
-    public int height { get; set; }
+    public required int width { get; set; }
+    public required int height { get; set; }
 }
 
 public class AnchorageAndFleets
