@@ -1,0 +1,6 @@
+@InstechWebAPI_HostAddress = http://localhost:5101
+
+GET {{InstechWebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

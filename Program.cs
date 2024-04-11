@@ -1,9 +1,27 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Dynamic;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+///
 
 // Code to get list of ships, anchorage
 var httpClient = new HttpClient();
@@ -14,12 +32,20 @@ int[,] tempAnchorage;
 ArrayList finalAnchorageList = new ArrayList();
 int shipNumber = 1; // used for visual representation of ships
 
-/* if (await InitializeRandomFleetsAsync())
-    RunAlgorithm(); */
-
-await InitializeRandomFleetsAsync();
+string runAlgorithmFromPost(AnchorageAndFleets request)
+    // Takes POST data, calculated optimal anchorage layout, sends back solution
+{
+    anchorageAndFleets = request;
+    tempAnchorage = new int[anchorageAndFleets.anchorageSize.height, anchorageAndFleets.anchorageSize.width];
+    finalAnchorageList = new ArrayList();
+    InitializeNewAnchorage();
+    ArrayList test = RunAlgorithm();
+    Console.WriteLine(test[0]);
+    return PrintFittedAnchorageInfo(test);
+}
 
 ArrayList RunAlgorithm()
+// Runs through algorithm, returning a list of all anchorages with ships
 {
     while (MoreShipsRemaining())
     {
@@ -31,6 +57,7 @@ ArrayList RunAlgorithm()
 }
 
 async Task<bool> InitializeRandomFleetsAsync()
+// Gets random fleets and anchorage dimensions from API, sorts and runs algorithm
 {
     try
     {
@@ -74,34 +101,39 @@ async Task<bool> InitializeRandomFleetsAsync()
     return false;
 }
 
-void PrintFittedAnchorageInfo(ArrayList anchorage)
-// Prints number of anchorages, and how they look
+string PrintFittedAnchorageInfo(ArrayList anchorage)
+// Prints number of anchorages, and where ships are placed
 {
-    Console.WriteLine("According to the algorithm, we need " + anchorage.Count + " iterations");
-    Console.WriteLine();
+    string finalString = "";
+    Console.WriteLine($"According to the algorithm, we need {anchorage.Count} iterations\n");
+    finalString += $"According to the algorithm, we need {anchorage.Count} iterations\n";
     foreach (int[,] iteration in anchorage)
     {
-        Console.WriteLine("\n------------ New anchorage ------------\n");
+        //Console.WriteLine("\n------------ New anchorage ------------\n");
+        finalString += "\n------------ New anchorage ------------\n\n";
         for (int y = 0; y < iteration.GetLength(0); y++)
         {
             for (int x = 0; x < iteration.GetLength(1); x++)
             {
                 if (iteration[y, x] == 0)
                 {
-                    Console.Write("X");
+                    //Console.Write("X");
+                    finalString += ".";
                 }
                 else
-                    Console.Write(iteration[y, x]);
+                    //Console.Write(iteration[y, x]);
+                    finalString += iteration[y, x];
             }
-            Console.WriteLine();
+            //Console.WriteLine();
+            finalString += "\n";
         }
     }
+    return finalString;
 }
 
-// Code to format the list of fleets
 void SortFleets()
+// Sorts list of fleets by their longest side, from shortest to longest
 {
-    // Sorts list of fleets by their longest side, from shortest to longest
     anchorageAndFleets.fleets.Sort((y, x) => (
         Math.Max(x.singleShipDimensions.width, x.singleShipDimensions.height).CompareTo(
             Math.Max(y.singleShipDimensions.width, y.singleShipDimensions.height))
@@ -122,6 +154,7 @@ void GoToNextAnchorage()
 }
 
 bool MoreShipsRemaining()
+// Returns true if there are more ships of any type, false if all ships are placed
 {
     foreach (Fleet fleet in anchorageAndFleets.fleets)
     {
@@ -150,7 +183,6 @@ bool AddShipToAnchorageIfPossible()
     return false;
 }
 
-// Algorithm to find a good combination of fitting the ships, return true if ship placed
 bool TryToPlaceShipAllLocations(int shipWidth, int shipHeight)
 // Systematically goes through available spots on anchorage, left to right, then top to bottom, and tries to place ship there
 {
@@ -194,10 +226,16 @@ bool TryToPlaceShipAtCoordinates(int anchorageY, int anchorageX, int shipWidth, 
 }
 
 void UpdateShipNumber()
+// Updates ship number, used to visualize where different ships are on anchorage
 {
     if (++shipNumber > 9)
         shipNumber = 1;
 }
+
+app.MapPost("/GetOptimalAnchorages", (AnchorageAndFleets request) => runAlgorithmFromPost(request)
+);
+
+app.Run();
 
 // Return list 
 
@@ -220,3 +258,5 @@ public class AnchorageAndFleets
     public required Dimensions anchorageSize { get; set; }
     public required List<Fleet> fleets { get; set; }
 }
+
+///
