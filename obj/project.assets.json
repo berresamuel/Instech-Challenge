@@ -465,11 +465,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\samit\\Documents\\Jobbsøknad - IT\\WebAPI\\Instech Challenge\\InstechWebAPI\\InstechWebAPI.csproj",
+      "projectUniqueName": "C:\\Users\\samit\\Source\\Repos\\Instech-Challenge\\InstechWebAPI.csproj",
       "projectName": "InstechWebAPI",
-      "projectPath": "C:\\Users\\samit\\Documents\\Jobbsøknad - IT\\WebAPI\\Instech Challenge\\InstechWebAPI\\InstechWebAPI.csproj",
+      "projectPath": "C:\\Users\\samit\\Source\\Repos\\Instech-Challenge\\InstechWebAPI.csproj",
       "packagesPath": "C:\\Users\\samit\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\samit\\Documents\\Jobbsøknad - IT\\WebAPI\\Instech Challenge\\InstechWebAPI\\obj\\",
+      "outputPath": "C:\\Users\\samit\\Source\\Repos\\Instech-Challenge\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\samit\\AppData\\Roaming\\NuGet\\NuGet.Config",
