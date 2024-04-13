@@ -21,21 +21,45 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-///
-
-var httpClient = new HttpClient();
+InitializeRandomFleetsAsync();
 
 string runAlgorithmFromPost(AnchorageAndFleets request)
     // Takes POST data, calculated optimal anchorage layout, sends back solution
 {
-    request.InitializeNewAnchorage();
-    ArrayList test = request.RunAlgorithm();
-    return PrintFittedAnchorageInfo(test);
+    ArrayList optimalAnchorages = request.RunAlgorithm();
+    return CreateStringAnswerBasedOnAnchorages(optimalAnchorages);
+}
+
+string CreateStringAnswerBasedOnAnchorages(ArrayList anchorage)
+// Prints number of anchorages, and where ships are placed
+{
+    string finalString = "";
+    finalString += $"According to the algorithm, we need {anchorage.Count} iterations\n";
+    foreach (int[,] iteration in anchorage)
+    {
+        finalString += "\n------------ New anchorage ------------\n\n";
+
+        for (int y = 0; y < iteration.GetLength(0); y++)
+        {
+            for (int x = 0; x < iteration.GetLength(1); x++)
+            {
+                if (iteration[y, x] == 0)
+                {
+                    finalString += ".";
+                }
+                else
+                    finalString += iteration[y, x];
+            }
+            finalString += "\n";
+        }
+    }
+    return finalString;
 }
 
 async Task<bool> InitializeRandomFleetsAsync()
 // Gets random fleets and anchorage dimensions from API, sorts and runs algorithm
 {
+    var httpClient = new HttpClient();
     try
     {
         HttpResponseMessage httpResponse = await httpClient.GetAsync("https://esa.instech.no/api/fleets/random");
@@ -57,11 +81,9 @@ async Task<bool> InitializeRandomFleetsAsync()
                 Console.WriteLine(fleet.singleShipDimensions.width + " " + fleet.singleShipDimensions.height);
             }
 
-            anchorageAndFleets.InitializeNewAnchorage();
-
             anchorageAndFleets.RunAlgorithm();
 
-            PrintFittedAnchorageInfo(anchorageAndFleets.finalAnchorageList);
+            Console.WriteLine(CreateStringAnswerBasedOnAnchorages(anchorageAndFleets.finalAnchorageList));
 
             return true;
 
@@ -76,36 +98,6 @@ async Task<bool> InitializeRandomFleetsAsync()
         Console.WriteLine($"Error occured while retrieving data: {ex.Message}");
     }
     return false;
-}
-
-string PrintFittedAnchorageInfo(ArrayList anchorage)
-// Prints number of anchorages, and where ships are placed
-{
-    string finalString = "";
-    Console.WriteLine($"According to the algorithm, we need {anchorage.Count} iterations\n");
-    finalString += $"According to the algorithm, we need {anchorage.Count} iterations\n";
-    foreach (int[,] iteration in anchorage)
-    {
-        //Console.WriteLine("\n------------ New anchorage ------------\n");
-        finalString += "\n------------ New anchorage ------------\n\n";
-        for (int y = 0; y < iteration.GetLength(0); y++)
-        {
-            for (int x = 0; x < iteration.GetLength(1); x++)
-            {
-                if (iteration[y, x] == 0)
-                {
-                    //Console.Write("X");
-                    finalString += ".";
-                }
-                else
-                    //Console.Write(iteration[y, x]);
-                    finalString += iteration[y, x];
-            }
-            //Console.WriteLine();
-            finalString += "\n";
-        }
-    }
-    return finalString;
 }
 
 app.MapPost("/GetOptimalAnchorages", (AnchorageAndFleets request) => runAlgorithmFromPost(request)

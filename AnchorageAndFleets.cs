@@ -29,6 +29,8 @@ public class AnchorageAndFleets
     public ArrayList RunAlgorithm()
     // Runs through algorithm, returning a list of all anchorages with ships
     {
+        InitializeNewAnchorage();
+        SortFleets();
         while (MoreShipsRemaining())
         {
             while (AddShipToAnchorageIfPossible())
@@ -60,14 +62,14 @@ public class AnchorageAndFleets
         anchorage = new int[anchorageSize.height, anchorageSize.width];
     }
 
-    public void GoToNextAnchorage()
+    private void GoToNextAnchorage()
     // Saves anchorage and starts a new iteration
     {
         finalAnchorageList.Add(anchorage);
         InitializeNewAnchorage();
     }
 
-    public bool MoreShipsRemaining()
+    private bool MoreShipsRemaining()
     // Returns true if there are more ships of any type, false if all ships are placed
     {
         foreach (Fleet fleet in fleets)
@@ -80,7 +82,7 @@ public class AnchorageAndFleets
         return false;
     }
 
-    public bool AddShipToAnchorageIfPossible()
+    private bool AddShipToAnchorageIfPossible()
     // Goes through all ships and tries to place one. Returns false if anchorage is full
     {
         foreach (Fleet currentFleet in fleets)
@@ -97,7 +99,7 @@ public class AnchorageAndFleets
         return false;
     }
 
-    public bool TryToPlaceShipAllLocations(int shipWidth, int shipHeight)
+    private bool TryToPlaceShipAllLocations(int shipWidth, int shipHeight)
     // Systematically goes through available spots on anchorage, left to right, then top to bottom, and tries to place ship there
     {
         for (int y = 0; y < anchorage.GetLength(0); y++)
@@ -116,7 +118,7 @@ public class AnchorageAndFleets
         return false;
     }
 
-    public bool TryToPlaceShipAtCoordinates(int anchorageY, int anchorageX, int shipWidth, int shipHeight)
+    private bool TryToPlaceShipAtCoordinates(int anchorageY, int anchorageX, int shipWidth, int shipHeight)
     // Tries to place ship on specified anchorage coordinates
     {
         // if ship does not go out of anchorage bounds
