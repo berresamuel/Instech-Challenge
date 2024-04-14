@@ -18,6 +18,4 @@ Not guaranteed to give an optimal solution, but should still be pretty good.
 # Weaknesses in code
 
 General functionality and security-issues, such as escaping inputs.
-Spaghetticode, everything being in Program.cs
-Variables that should be put in objects instead of being "global" scope.
 Some leftover generic code.
