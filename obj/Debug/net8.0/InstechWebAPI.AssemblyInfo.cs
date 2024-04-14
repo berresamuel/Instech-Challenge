@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("InstechWebAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b30a423b7d7e3aa4b0993a77d6f58ffa7aee73aa")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+81189001b56954148e79b421837219c8c28bac7d")]
 [assembly: System.Reflection.AssemblyProductAttribute("InstechWebAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("InstechWebAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

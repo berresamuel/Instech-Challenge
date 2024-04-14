@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 
 // Classes used to create objects for fleets and anchorages
 
@@ -7,12 +8,27 @@ public class Fleet
     public required Dimensions singleShipDimensions { get; set; }
     public required string shipDesignation { get; set; }
     public required int shipCount { get; set; }
+
+    [SetsRequiredMembers]
+    public Fleet(Dimensions singleShipDimensions, string shipDesignation, int shipCount)
+    {
+        this.singleShipDimensions = singleShipDimensions;
+        this.shipDesignation = shipDesignation;
+        this.shipCount = shipCount;
+    }
 }
 
 public class Dimensions
 {
     public required int width { get; set; }
     public required int height { get; set; }
+
+    [SetsRequiredMembers]
+    public Dimensions(int width, int height)
+    {
+        this.width = width;
+        this.height = height;
+    }
 }
 
 public class AnchorageAndFleets
@@ -21,10 +37,17 @@ public class AnchorageAndFleets
     public required Dimensions anchorageSize { get; set; }
     public required List<Fleet> fleets { get; set; }
 
-    int[,] anchorage;
-    int[,] tempAnchorage;
+    int[,]? anchorage;
+    int[,]? tempAnchorage;
     public ArrayList finalAnchorageList = new ArrayList();
     int shipNumber = 1; // used for visual representation of ships
+
+    [SetsRequiredMembers]
+    public AnchorageAndFleets(Dimensions anchorageSize, List<Fleet> fleets)
+    {
+        this.anchorageSize = anchorageSize;
+        this.fleets = fleets;
+    }
 
     public ArrayList RunAlgorithm()
     // Runs through algorithm, returning a list of all anchorages with ships
@@ -40,14 +63,14 @@ public class AnchorageAndFleets
         return finalAnchorageList;
     }
 
-    public void UpdateShipNumber()
+    private void UpdateShipNumber()
     // Updates ship number, used to visualize where different ships are on anchorage
     {
         if (++shipNumber > 9)
             shipNumber = 1;
     }
 
-    public void SortFleets()
+    private void SortFleets()
     // Sorts list of fleets by their longest side, from shortest to longest
     {
         fleets.Sort((y, x) => (
@@ -56,7 +79,7 @@ public class AnchorageAndFleets
             ));
     }
 
-    public void InitializeNewAnchorage()
+    private void InitializeNewAnchorage()
     // Sets variable anchorage to empty anchorage with correct dimensions
     {
         anchorage = new int[anchorageSize.height, anchorageSize.width];

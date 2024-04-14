@@ -74,13 +74,6 @@ async Task<bool> InitializeRandomFleetsAsync()
             AnchorageAndFleets anchorageAndFleets = JsonSerializer.Deserialize<AnchorageAndFleets>(responseAsString) ??
             throw new InvalidOperationException();
 
-            anchorageAndFleets.SortFleets();
-
-            foreach (Fleet fleet in anchorageAndFleets.fleets)
-            {
-                Console.WriteLine(fleet.singleShipDimensions.width + " " + fleet.singleShipDimensions.height);
-            }
-
             anchorageAndFleets.RunAlgorithm();
 
             Console.WriteLine(CreateStringAnswerBasedOnAnchorages(anchorageAndFleets.finalAnchorageList));

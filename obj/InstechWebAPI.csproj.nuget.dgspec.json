@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\samit\\Source\\Repos\\Instech-Challenge\\InstechWebAPI.csproj": {}
+    "C:\\Users\\samit\\source\\repos\\Instech-Challenge\\InstechWebAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\samit\\Source\\Repos\\Instech-Challenge\\InstechWebAPI.csproj": {
+    "C:\\Users\\samit\\source\\repos\\Instech-Challenge\\InstechWebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\samit\\Source\\Repos\\Instech-Challenge\\InstechWebAPI.csproj",
+        "projectUniqueName": "C:\\Users\\samit\\source\\repos\\Instech-Challenge\\InstechWebAPI.csproj",
         "projectName": "InstechWebAPI",
-        "projectPath": "C:\\Users\\samit\\Source\\Repos\\Instech-Challenge\\InstechWebAPI.csproj",
+        "projectPath": "C:\\Users\\samit\\source\\repos\\Instech-Challenge\\InstechWebAPI.csproj",
         "packagesPath": "C:\\Users\\samit\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\samit\\Source\\Repos\\Instech-Challenge\\obj\\",
+        "outputPath": "C:\\Users\\samit\\source\\repos\\Instech-Challenge\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\samit\\AppData\\Roaming\\NuGet\\NuGet.Config",
