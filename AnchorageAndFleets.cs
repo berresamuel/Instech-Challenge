@@ -54,10 +54,10 @@ public class AnchorageAndFleets
     public required Dimensions anchorageSize { get; set; }
     public required List<Fleet> fleets { get; set; }
 
-    int[,] anchorage;
+    public int[,] anchorage;
     int[,]? tempAnchorage;
     public ArrayList finalAnchorageList = new ArrayList();
-    int shipNumber = 1; // used for visual representation of ships
+    public int shipNumber = 1; // used for visual representation of ships
 
     [SetsRequiredMembers]
     public AnchorageAndFleets(Dimensions anchorageSize, List<Fleet> fleets)
@@ -80,14 +80,14 @@ public class AnchorageAndFleets
         return finalAnchorageList;
     }
 
-    private void UpdateShipNumber()
+    public void UpdateShipNumber()
     // Updates ship number, used to visualize where different ships are on anchorage
     {
         if (++shipNumber > 9)
             shipNumber = 1;
     }
 
-    private void SortFleets()
+    public void SortFleets()
     // Sorts list of fleets by their longest side, from shortest to longest
     {
         fleets.Sort((y, x) => (
@@ -102,7 +102,7 @@ public class AnchorageAndFleets
         anchorage = new int[anchorageSize.height, anchorageSize.width];
     }
 
-    private void GoToNextAnchorage()
+    public void GoToNextAnchorage()
     // Saves anchorage and starts a new iteration
     {
         finalAnchorageList.Add(anchorage);
