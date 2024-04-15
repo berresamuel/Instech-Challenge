@@ -31,13 +31,30 @@ public class Dimensions
     }
 }
 
+public class AnchorageResults
+{
+    public required Dimensions AnchorageSize { get; set; }
+    public required List<Fleet> Fleets { get; set; }
+    public required int AmountOfAnchorageIterationsNeeded { get; set; }
+    public required string AnchoragesWithFleetsVisualized { get; set; }
+
+    [SetsRequiredMembers]
+    public AnchorageResults(Dimensions AnchorageSize, List<Fleet> Fleets,  int AmountOfAnchorageIterationsNeeded, string AnchoragesWithFleetsVisualized)
+    {
+        this.AnchorageSize = AnchorageSize;
+        this.Fleets = Fleets;
+        this.AmountOfAnchorageIterationsNeeded = AmountOfAnchorageIterationsNeeded;
+        this.AnchoragesWithFleetsVisualized = AnchoragesWithFleetsVisualized;
+    }
+}
+
 public class AnchorageAndFleets
     // Contains everything needed to store and manipulate data on fleets and anchorages.
 {
     public required Dimensions anchorageSize { get; set; }
     public required List<Fleet> fleets { get; set; }
 
-    int[,]? anchorage;
+    int[,] anchorage;
     int[,]? tempAnchorage;
     public ArrayList finalAnchorageList = new ArrayList();
     int shipNumber = 1; // used for visual representation of ships
@@ -47,12 +64,12 @@ public class AnchorageAndFleets
     {
         this.anchorageSize = anchorageSize;
         this.fleets = fleets;
+        InitializeNewAnchorage();
     }
 
     public ArrayList RunAlgorithm()
     // Runs through algorithm, returning a list of all anchorages with ships
     {
-        InitializeNewAnchorage();
         SortFleets();
         while (MoreShipsRemaining())
         {
