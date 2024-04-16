@@ -27,11 +27,11 @@ AnchorageResults runAlgorithmFromPost(AnchorageAndFleets request)
     // Takes POST data, calculated optimal anchorage layout, sends back solution
 {
     // Creates a clone of the original fleets
-    List<Fleet> fleetsWithOriginalShipCount = request.fleets.ConvertAll(fleet => new Fleet(fleet.singleShipDimensions, fleet.shipDesignation, fleet.shipCount));
+    //List<Fleet> fleetsWithOriginalShipCount = request.fleets.ConvertAll(fleet => new Fleet(fleet.singleShipDimensions, fleet.shipDesignation, fleet.shipCount));
 
     request.RunAlgorithm();
     String AnchorageVisualization = CreateStringAnswerBasedOnAnchorages(request.finalAnchorageList);
-    AnchorageResults results = new AnchorageResults(request.anchorageSize, fleetsWithOriginalShipCount, request.finalAnchorageList.Count, AnchorageVisualization);
+    AnchorageResults results = new AnchorageResults(request.anchorageSize, request.fleetPlacements, request.finalAnchorageList.Count, AnchorageVisualization);
     return results;
 }
 

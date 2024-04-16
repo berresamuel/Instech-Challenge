@@ -31,18 +31,36 @@ public class Dimensions
     }
 }
 
+public class FleetPlacement
+{
+    public required Dimensions singleShipDimensions { get; set; }
+    public required string shipDesignation { get; set; }
+    public required int anchorageIndex { get; set; }
+    public required Dimensions location { get; set; }
+    public required bool flipped { get; set; }
+    [SetsRequiredMembers]
+    public FleetPlacement(Fleet fleet, int locationY, int locationX, int anchorageIndex, bool flipped)
+    {
+        singleShipDimensions = fleet.singleShipDimensions;
+        shipDesignation = fleet.shipDesignation;
+        this.anchorageIndex = anchorageIndex;
+        location = new Dimensions(locationX, locationY);
+        this.flipped = flipped;
+    }
+}
+
 public class AnchorageResults
 {
     public required Dimensions AnchorageSize { get; set; }
-    public required List<Fleet> Fleets { get; set; }
+    public required List<FleetPlacement> FleetPlacements { get; set; }
     public required int AmountOfAnchorageIterationsNeeded { get; set; }
     public required string AnchoragesWithFleetsVisualized { get; set; }
 
     [SetsRequiredMembers]
-    public AnchorageResults(Dimensions AnchorageSize, List<Fleet> Fleets,  int AmountOfAnchorageIterationsNeeded, string AnchoragesWithFleetsVisualized)
+    public AnchorageResults(Dimensions AnchorageSize, List<FleetPlacement> FleetPlacements,  int AmountOfAnchorageIterationsNeeded, string AnchoragesWithFleetsVisualized)
     {
         this.AnchorageSize = AnchorageSize;
-        this.Fleets = Fleets;
+        this.FleetPlacements = FleetPlacements;
         this.AmountOfAnchorageIterationsNeeded = AmountOfAnchorageIterationsNeeded;
         this.AnchoragesWithFleetsVisualized = AnchoragesWithFleetsVisualized;
     }
@@ -57,6 +75,7 @@ public class AnchorageAndFleets
     public int[,] anchorage;
     int[,]? tempAnchorage;
     public ArrayList finalAnchorageList = new ArrayList();
+    public List<FleetPlacement> fleetPlacements = new List<FleetPlacement>();
     public int shipNumber = 1; // used for visual representation of ships
 
     [SetsRequiredMembers]
@@ -129,7 +148,7 @@ public class AnchorageAndFleets
         {
             if (currentFleet.shipCount > 0)
             {
-                if (TryToPlaceShipAllLocations(currentFleet.singleShipDimensions.width, currentFleet.singleShipDimensions.height))
+                if (TryToPlaceShipAllLocations(currentFleet))
                 {
                     currentFleet.shipCount -= 1;
                     return true;
@@ -139,7 +158,7 @@ public class AnchorageAndFleets
         return false;
     }
 
-    private bool TryToPlaceShipAllLocations(int shipWidth, int shipHeight)
+    private bool TryToPlaceShipAllLocations(Fleet fleet)
     // Systematically goes through available spots on anchorage, left to right, then top to bottom, and tries to place ship there
     {
         for (int y = 0; y < anchorage.GetLength(0); y++)
@@ -148,10 +167,16 @@ public class AnchorageAndFleets
             {
                 if (anchorage[y, x] == 0)
                 {
-                    if (TryToPlaceShipAtCoordinates(y, x, shipWidth, shipHeight))
+                    if (TryToPlaceShipAtCoordinates(y, x, fleet.singleShipDimensions.width, fleet.singleShipDimensions.height))
+                    {
+                        AddFleetPlacement(y, x, fleet);
                         return true;
-                    else if (TryToPlaceShipAtCoordinates(y, x, shipHeight, shipWidth)) // Try to place ship tilted 90 degrees
+                    }
+                    else if (TryToPlaceShipAtCoordinates(y, x, fleet.singleShipDimensions.height, fleet.singleShipDimensions.width)) // Try to place ship tilted 90 degrees
+                    {
+                        AddFleetPlacement(y, x, fleet, true);
                         return true;
+                    }
                 }
             }
         }
@@ -162,12 +187,12 @@ public class AnchorageAndFleets
     // Tries to place ship on specified anchorage coordinates
     {
         // if ship does not go out of anchorage bounds
-        if (anchorageY + shipWidth <= anchorage.GetLength(0) && anchorageX + shipHeight <= anchorage.GetLength(1))
+        if (anchorageY + shipHeight <= anchorage.GetLength(0) && anchorageX + shipWidth <= anchorage.GetLength(1))
         {
             tempAnchorage = (int[,])anchorage.Clone();
-            for (int y = anchorageY; y < anchorageY + shipWidth; y++)
+            for (int y = anchorageY; y < anchorageY + shipHeight; y++)
             {
-                for (int x = anchorageX; x < anchorageX + shipHeight; x++)
+                for (int x = anchorageX; x < anchorageX + shipWidth; x++)
                 {
                     if (tempAnchorage[y, x] == 0)
                         tempAnchorage[y, x] = shipNumber;
@@ -179,5 +204,10 @@ public class AnchorageAndFleets
             return true;
         }
         return false;
+    }
+    private void AddFleetPlacement(int anchorageY, int anchorageX, Fleet fleet, bool flipped90Degrees = false)
+    {
+        FleetPlacement newFleetPlaced = new FleetPlacement(fleet, anchorageY, anchorageX, finalAnchorageList.Count, flipped90Degrees);
+        fleetPlacements.Add(newFleetPlaced);
     }
 }
