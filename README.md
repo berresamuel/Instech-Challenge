@@ -17,5 +17,4 @@ Not guaranteed to give an optimal solution, but should still be pretty good.
 
 # Weaknesses in code
 
-General functionality and security-issues, such as escaping inputs.
-Some leftover generic code.
+May need some extra security assurance, and handling of large amounts of requests.
